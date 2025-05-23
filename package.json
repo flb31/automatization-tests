@@ -1,0 +1,33 @@
+{
+  "name": "vitest",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test:sm": "size=sm vitest run src/**/*.sm.test.ts",
+    "test:md": "size=md vitest run src/**/*.md.test.ts",
+    "test:lg": "size=lg vitest run src/**/*.lg.test.ts",
+    "coverage": "vitest run --coverage",
+    "prepare": "husky",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "format:check": "prettier 'src/**/*.{js,jsx,ts,tsx}' --check",
+    "format:fix": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.7.0",
+    "@types/lodash.clonedeep": "^4.5.9",
+    "@types/node": "^22.15.6",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "eslint": "^8.57.1",
+    "eslint-plugin-vitest": "^0.5.4",
+    "husky": "^9.1.7",
+    "lodash.clonedeep": "^4.5.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.3"
+  }
+}
