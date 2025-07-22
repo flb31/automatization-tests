@@ -13,6 +13,14 @@ jobs:
 
   e2e:
     needs: deploy
+    if: success()
     uses: ./.github/workflows/large.yml
     with:
       environment: production
+
+  notify-on-app:
+    needs: [deploy, e2e]
+    if: failure()
+    uses: ./.github/workflows/notify.yml
+    with:
+      reason: "Deployment or e2e failed"
