@@ -3,7 +3,7 @@ import { smallMockExample } from "../mocks/sm";
 import { largeMockExample } from "../mocks/lg";
 import { mediumMockExample } from "../mocks/md";
 
-describe("Large test suite", () => {
+describe("Large test suite!", () => {
   it("Anything", () => {
     smallMockExample();
   });
