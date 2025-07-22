@@ -1,0 +1,16 @@
+name: Notify failure
+
+on:
+  workflow_call:
+    inputs:
+      reason:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Send notification failure"
+          echo "Reason: ${{ inputs.reason }}"

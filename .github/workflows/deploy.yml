@@ -12,3 +12,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Deploying to ${{ inputs.environment }}"
+      - run: if [ "${{ vars.FORCE_FAILURE }}" = "true" ]; then exit 1; fi
