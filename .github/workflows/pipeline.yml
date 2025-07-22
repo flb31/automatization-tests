@@ -25,3 +25,4 @@ jobs:
     with:
       reason: "Deployment or e2e failed"
       channel_id: "${{ vars.SLACK_CHANNEL_LARGE_TEST_ID }}"
+    secrets: inherit
