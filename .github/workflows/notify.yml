@@ -22,7 +22,7 @@ jobs:
         uses: slackapi/slack-github-action@v2.1.1
         with:
           method: chat.postMessage
-          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          token: xoxb-9238536105170-9236661944917-q0xCLcKCTIxFWGnI4BA7S1ka
           payload: |
             channel: ${{ inputs.channel_id }}
             blocks:
