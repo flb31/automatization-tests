@@ -23,6 +23,6 @@ jobs:
     if: failure()
     uses: ./.github/workflows/notify.yml
     with:
-      reason: "Deployment or e2e failed"
+      reason: "Deployment or e2e failed: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
       channel_id: "${{ vars.SLACK_CHANNEL_LARGE_TEST_ID }}"
     secrets: inherit
