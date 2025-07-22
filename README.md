@@ -12,7 +12,7 @@ Just an example to manage testing scenarios using vitest.
 Clone the repository and install the dependencies:
 
 ```bash
-git clone https://github.com/your-username/your-project.git
+git clone https://github.com/flb31/automatization-tests.git
 cd automatization-test
 npm i
 ```
