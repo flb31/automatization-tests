@@ -1,16 +1,30 @@
-name: Notify failure
+name: Slack Alert
 
 on:
   workflow_call:
     inputs:
-      reason:
+      channel_id:
+        description: "Slack channel ID"
         required: true
         type: string
-
+      reason:
+        description: "Reason for the alert"
+        required: true
+        type: string
 jobs:
-  deploy:
+  notify:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "Send notification failure"
-          echo "Reason: ${{ inputs.reason }}"
+      - name: Send alert to Slack
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ inputs.channel_id }}
+            blocks:
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: "🚨  *${{ inputs.reason }}*"
+
