@@ -15,6 +15,9 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
+      - name: Sends echo
+        run: |
+          echo "Send notification failure ${{ secrets.SLACK_BOT_TOKEN }} and ${{ inputs.channel_id }}"
       - name: Send alert to Slack
         uses: slackapi/slack-github-action@v2.1.1
         with:
