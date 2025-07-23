@@ -23,6 +23,11 @@ jobs:
     if: failure() && github.event_name == 'pull_request'
     uses: ./.github/workflows/notify.yml
     with:
-      reason: "*Large tests failed*\n*Job failed en workflow* ${{ github.workflow }}\n• *Job:* <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}?check_suite_focus=true|${{ github.job }}>\n• *Run:* #${{ github.run_number }}\n• *Actor:* @${{ github.actor }}"
+      reason: |
+        *Large tests failed*
+        *Job failed en workflow:* ${{ github.workflow }}
+        • *Job:* <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}?check_suite_focus=true|${{ github.job }}>
+        • *Run:* #${{ github.run_number }}
+        • *Actor:* @${{ github.actor }}
       channel_id: "${{ vars.SLACK_CHANNEL_LARGE_TEST_ID }}"
     secrets: inherit
