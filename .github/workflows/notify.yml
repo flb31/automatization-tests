@@ -26,5 +26,6 @@ jobs:
               - type: "section"
                 text:
                   type: "mrkdwn"
-                  text: "🚨 ${{ inputs.reason }}"
+                  text: >
+                    🚨 ${{ inputs.reason }}
 
