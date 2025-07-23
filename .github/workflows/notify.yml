@@ -20,12 +20,16 @@ jobs:
         with:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}
-          payload: |
-            channel: ${{ inputs.channel_id }}
-            blocks:
-              - type: "section"
-                text:
-                  type: "mrkdwn"
-                  text: >
-                    🚨 ${{ inputs.reason }}
+          payload: ${{ toJson({
+            "channel": inputs.channel_id,
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "🚨 " + inputs.reason
+                }
+              }
+            ]
+          }) }}
 
