@@ -1,0 +1,22 @@
+name: Slack Alert Webhook
+
+on:
+  workflow_call:
+    inputs:
+      reason:
+        description: "Reason for the alert"
+        required: true
+        type: string
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send alert to Slack via webhook
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          with:
+          payload: |
+            {
+              "text": "🚨 Webhook: ${{ inputs.reason }}"
+            }
