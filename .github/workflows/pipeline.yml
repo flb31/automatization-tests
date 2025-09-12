@@ -11,6 +11,17 @@ jobs:
     with:
       environment: production
 
+  validation:
+    name: "Deploy validation"
+    needs: [deploy]
+    if: ${{ always() }}
+    uses: ./.github/workflows/validation.yml
+    secrets: inherit
+    with:
+      needsJson: ${{ toJson(needs) }}
+      message: "post-merge pipeline FAILED"
+      extraTags: "env:${{ github.ref_name }}"
+
   e2e:
     needs: deploy
     if: success()
