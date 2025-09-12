@@ -1,0 +1,57 @@
+name: Validation
+
+on:
+  workflow_call:
+    inputs:
+      needsJson:
+        type: string
+        required: true
+      message:
+        type: string
+        required: false
+        default: "pipeline FAILED"
+      extra_tags:
+        type: string
+        required: false
+        default: "" # example: env:prod,team:platform
+
+jobs:
+  send-datadog-log:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Calculate fails
+        id: parse
+        env:
+          INPUT_NEEDS_JSON: ${{ inputs.needsJson }}
+        run: |
+          echo "$INPUT_NEEDS_JSON" > needs.json
+          FAILED=$(jq -r 'to_entries | map(select(.value.result!="success")) | map(.key) | join(",")' needs.json)
+
+          if [ -n "$FAILED" ]; then
+            echo "has_failure=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_failure=false" >> $GITHUB_OUTPUT
+          fi
+          echo "failed_jobs=$FAILED" >> $GITHUB_OUTPUT
+
+      - name: Send Datadog Log
+        if: ${{ steps.parse.outputs.has_failure == 'true' }}
+        env:
+          MESSAGE: ${{ inputs.message }}
+          EXTRA_TAGS: ${{ inputs.extra_tags }}
+          FAILED_JOBS: ${{ steps.parse.outputs.failed_jobs }}
+        run: |
+          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+
+          TAGS="service:ci,pipeline:${GITHUB_WORKFLOW},repo:${GITHUB_REPOSITORY},branch:${GITHUB_REF_NAME}"
+          if [ -n "$EXTRA_TAGS" ]; then TAGS="${TAGS},${EXTRA_TAGS}"; fi
+
+          echo "Sending log to Datadog: $MESSAGE"
+          echo "With tags: $TAGS"
+          echo "Failed jobs: $FAILED_JOBS"
+          echo "Branch: ${GITHUB_REF_NAME}"
+          echo "Run URL: $RUN_URL"
+          echo "SHA: ${GITHUB_SHA}"
+          echo "Actor: ${GITHUB_ACTOR}"
+          echo "Repository: ${GITHUB_REPOSITORY}"
