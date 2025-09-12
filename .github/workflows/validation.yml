@@ -10,7 +10,7 @@ on:
         type: string
         required: false
         default: "pipeline FAILED"
-      extra_tags:
+      extraTags:
         type: string
         required: false
         default: "" # example: env:prod,team:platform
