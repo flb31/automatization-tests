@@ -42,9 +42,9 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             "https://api.github.com/repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}/pulls")"
 
-          PR_NUMBER="$(jq -r '.[0].number // empty' <<< "$PRS_JSON")"
-          PR_AUTHOR="$(jq -r '.[0].user.login // empty' <<< "$PRS_JSON")"
-
+          PR_NUMBER="$(jq -r 'if type=="array" and length>0 then .[0].number else empty end' <<< "$PRS_JSON")"
+          PR_AUTHOR="$(jq -r 'if type=="array" and length>0 then .[0].user.login else empty end' <<< "$PRS_JSON")"
+          
           echo "pr_number=${PR_NUMBER}" >> $GITHUB_OUTPUT
           echo "pr_author=${PR_AUTHOR}" >> $GITHUB_OUTPUT
 
