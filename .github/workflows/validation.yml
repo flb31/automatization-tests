@@ -27,7 +27,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "$INPUT_NEEDS_JSON" > needs.json
-          FAILED=$(jq -r 'to_entries | map(select(.value.result!="success")) | map(.key) | join(",")' needs.json)
+          FAILED=$(jq -r 'to_entries | map(select(.value.result=="failure")) | map(.key) | join(",")' needs.json)
 
           if [ -n "$FAILED" ]; then
             echo "has_failure=true" >> $GITHUB_OUTPUT
