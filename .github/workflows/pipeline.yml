@@ -11,9 +11,16 @@ jobs:
     with:
       environment: production
 
+  docs:
+    needs: [deploy]
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Updating docs..."
+
   validation:
     name: "Deploy validation"
-    needs: [deploy]
+    needs: [deploy, docs]
     if: ${{ always() }}
     uses: ./.github/workflows/validation.yml
     secrets: inherit
